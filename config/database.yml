@@ -51,6 +51,6 @@ test:
 production:
   <<: *default
   host: 127.0.0.1
-  username: circles
   database: circles_production
+  username: circles
   password: circles_p_roduction
