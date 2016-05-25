@@ -14,13 +14,9 @@
         <th>用户名</th>
         <th></th>
       </tr>
-      <% @users.each do |user| %>
-        <tr>
-          <td><%= user.id %></td>
-          <td><%= user.username %></td>
-          <td></td>
-        </tr>
-      <% end -%>
+
+     <%= render partial: "one_user", collection: @users, as: :user %>
+
     </table>
 
     <%= will_paginate @users %>
