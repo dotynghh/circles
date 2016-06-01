@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   include Concerns::UserSession
+  
   private
   def auth_user
     unless logged_in?
