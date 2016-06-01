@@ -3,15 +3,22 @@ class SessionsController < ApplicationController
     
   end
 
-  def create
+def create
     @user = User.find_by(username: params[:username], password: params[:password])
     if @user
       session[:user_id] = @user.id
-      flash[:notice] = "Success Login!"
-      redirect_to root_path
+      
+      render json: {
+        status: 'ok',
+        msg: {
+          redirect_url: root_path
+        }
+      }
     else
-      flash[:notice] = "The user name or password is not correct."
-      render action: :new
+      render json: {
+        status: 'error',
+        msg: "用户名或密码不正确"
+      }
     end
   end
 

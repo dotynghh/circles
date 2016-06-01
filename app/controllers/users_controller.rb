@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params.require(:user).permit(:username, :password))
+    @user = User.new(user_attrs)
     if @user.save
       flash[:notice] = "注册成功，请登录"
       redirect_to new_session_path
@@ -29,4 +29,7 @@ class UsersController < ApplicationController
     end
   end
 
+  def user_attrs
+    params.require(:user).permit(:username, :password)
+  end
 end
