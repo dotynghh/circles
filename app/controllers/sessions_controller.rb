@@ -23,7 +23,8 @@ def create
   end
 
   def destroy
-    session[:user_id] = nil
+    logout_user
+    
     flash[:notice] = "Exit the success."
     redirect_to root_path
   end
