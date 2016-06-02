@@ -24,7 +24,7 @@ module Concerns
       if logged_in?
         @current_user ||= User.find(session[:user_id])
       else
-        nil    
+        nil
       end
     end
 
