@@ -9,23 +9,6 @@
 
 <div class="row">
   <div class="col-sm-12">
-    <table class="table">
-      <tr>
-        <th>ID</th>
-        <th>标题</th>
-        <th>作者</th>
-      </tr>
-      <% @blogs.each do |blog| %>
-        <tr>
-          <td><%= blog.id %></td>
-          <td>
-            <%= link_to blog.title, blog_path(blog) %>  
-          </td>
-          <td><%= blog.user.username %></td>
-        </tr>
-      <% end -%>
-    </table>
-
-    <%= will_paginate @blogs %>
+  <%= render "blogs" %>
   </div>
 </div>
