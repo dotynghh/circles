@@ -55,6 +55,13 @@
       <%= yield %>
     </div>
 
+  <% if logged_in? %>
+    <ul>
+      <% current_user.user_records.each do |t| %>
+      <li><%=t %></li>
+      <% end -%>
+    </ul>
+  <% end -%>
   <%= javascript_include_tag 'application' %>
   <%= yield :javascripts %>
   </body>
