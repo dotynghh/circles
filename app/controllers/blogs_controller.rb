@@ -29,10 +29,10 @@ class BlogsController < ApplicationController
     if logged_in?
       user_id = current_user.id
       blog_id = @blog.id
-       @user_record = UserRecord.new(user_id, blog_id)
+       @user_record = UserRecord.new(user_id: user_id, blog_id: blog_id)
        @user_record.save
     end
-   
+
   end
 
   def edit

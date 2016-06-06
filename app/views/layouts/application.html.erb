@@ -56,11 +56,11 @@
     </div>
 
   <% if logged_in? %>
-    <ul>
+
       <% current_user.user_records.each do |t| %>
-      <li><%=t %></li>
+      <%= link_to Blog.find_by(id: t.blog_id).title, blog_path(Blog.find_by(id: t.blog_id)) %>
       <% end -%>
-    </ul>
+
   <% end -%>
   <%= javascript_include_tag 'application' %>
   <%= yield :javascripts %>
