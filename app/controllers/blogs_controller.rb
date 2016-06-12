@@ -3,8 +3,8 @@ class BlogsController < ApplicationController
   before_filter :auth_user, except: [:index, :show]
 
   def index
-    @blogs = Blog.page(params[:page] || 1).per_page(params[:per_page] || 10).
-      order("id desc").where(is_public: true)
+    @blogs = Blog.page(params[:page] || 1).per_page(params[:per_page] || 7).
+      order("id desc").where(is_public: true).includes(:tags, :user)
   end
 
   def new
@@ -14,7 +14,6 @@ class BlogsController < ApplicationController
   def create
     @blog = current_user.blogs.new(blog_attrs)
     if @blog.save
-      update_tags
 
       flash[:notice] = "博客创建成功"
       redirect_to blogs_path
@@ -53,9 +52,10 @@ class BlogsController < ApplicationController
     end
   end
 
+
   private
   def blog_attrs
-    params.require(:blog).permit(:title, :content, :is_public)
+    params.require(:blog).permit(:title, :content, :is_public, :tags_string)
   end
 
 

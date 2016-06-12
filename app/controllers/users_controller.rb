@@ -7,7 +7,7 @@ class UsersController < ApplicationController
       .order("id desc")
   end
   def blogs
-    @blogs = current_user.blogs.page(params[:page] || 1).per_page(params[:per_page] || 10)
+    @blogs = current_user.blogs.page(params[:page] || 1).per_page(params[:per_page] || 8)
       .order("id desc")
   end
   def new
