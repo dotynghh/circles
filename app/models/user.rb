@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_one :latest_blog,  -> { order("id desc") }, class_name: :Blog
 
   before_save :update_username
+  attr_accessor :oldpassword
   attr_accessor :password
   attr_accessor :password_confirmation
 
@@ -27,9 +28,20 @@ class User < ActiveRecord::Base
     end
   end
 
-  def valid_password? password
-    self.crypted_password ==  Digest::SHA256.hexdigest(password + self.salt)
+  def change_password oldpassword, password, password_confirmation
+    if password == password_confirmation
+      #self.password = password
+      self.password_confirmation = password_confirmation
+      update_password
+    else
+      nil
+    end
   end
+
+ def valid_password? password
+    self.crypted_password == Digest::SHA256.hexdigest(password + self.salt)
+  end
+
 
   private
   def validate_password
@@ -47,6 +59,12 @@ class User < ActiveRecord::Base
 
   def set_password
     self.salt = Time.now.to_i
+    self.crypted_password = Digest::SHA256.hexdigest(self.password + self.salt)
+  end
+
+  def update_password 
+    self.salt = Time.now.to_i
+    
     self.crypted_password = Digest::SHA256.hexdigest(self.password + self.salt)
   end
 
