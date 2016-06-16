@@ -14,8 +14,6 @@ class BlogsController < ApplicationController
   def create
     @blog = current_user.blogs.new(blog_attrs)
     if @blog.save
-      update_tags
-
       flash[:notice] = "博客创建成功"
       redirect_to blogs_path
     else
