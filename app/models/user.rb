@@ -2,8 +2,7 @@ class User < ActiveRecord::Base
 
   validates :username, presence: { message: "用户名不能为空" }
   validates :username, uniqueness: { message: "用户名已存在" }
-  
- 
+
   has_many :blogs
   has_many :user_records, class_name: "UserRecord"
   has_many :public_blogs, -> { where(is_public: true) },
@@ -31,15 +30,16 @@ class User < ActiveRecord::Base
   def change_password oldpassword, password, password_confirmation
     if password == password_confirmation
       #self.password = password
-      self.password_confirmation = password_confirmation
-      update_password
+
+      self.salt = Time.now.to_i
+      self.crypted_password = Digest::SHA256.hexdigest(password.to_s + self.salt)
     else
       nil
     end
   end
 
  def valid_password? password
-    self.crypted_password == Digest::SHA256.hexdigest(password + self.salt)
+    self.crypted_password == Digest::SHA256.hexdigest(password.to_s + self.salt)
   end
 
 
@@ -62,9 +62,9 @@ class User < ActiveRecord::Base
     self.crypted_password = Digest::SHA256.hexdigest(self.password + self.salt)
   end
 
-  def update_password 
+  def update_password
     self.salt = Time.now.to_i
-    
+
     self.crypted_password = Digest::SHA256.hexdigest(self.password + self.salt)
   end
 
