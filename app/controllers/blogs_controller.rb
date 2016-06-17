@@ -35,12 +35,12 @@ class BlogsController < ApplicationController
   end
 
   def edit
-    @blog = Blog.find params[:id]
+    @blog = current_user.blogs.find params[:id]
     render action: :new
   end
 
   def update
-    @blog = Blog.find params[:id]
+    @blog = current_user.blogs.find params[:id]
     @blog.attributes = blog_attrs
     if @blog.save
 
