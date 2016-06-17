@@ -30,12 +30,13 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find params[:id]
-    if @user.change_password(params[:oldpassword], params[:password], params[:password_confirmation]) and @user.save
-      flash[:notice] = "密码修改成功"
-      redirect_to users_path
+    current_user.attributes = password_attrs
+    if current_user.save
+      flash[:notice] = "密码修改成功，请登录"
+      logout_user
+      redirect_to new_session_path
     else
-      flash[:notice] = "密码修改失败"
+      flash[:notice] = "密码修改失败，请重新修改"
       render action: :new
     end
   end
@@ -43,5 +44,9 @@ class UsersController < ApplicationController
   private
   def user_attrs
     params.require(:user).permit(:username, :password, :password_confirmation)
+  end
+
+  def password_attrs
+    params.require(:user).permit(:oldpassword, :password, :password_confirmation)
   end
 end

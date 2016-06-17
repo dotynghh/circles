@@ -16,7 +16,9 @@ class User < ActiveRecord::Base
   attr_accessor :password_confirmation
 
   validate :validate_password, on: :create
+  validate :change_password, on: :update
   before_create :set_password
+  before_save :set_password
 
   def self.authenticate username, password
     user = find_by(username: username)
@@ -27,23 +29,22 @@ class User < ActiveRecord::Base
     end
   end
 
-  def change_password oldpassword, password, password_confirmation
-    if password == password_confirmation
-      #self.password = password
 
-      self.salt = Time.now.to_i
-      self.crypted_password = Digest::SHA256.hexdigest(password.to_s + self.salt)
-    else
-      nil
-    end
-  end
 
  def valid_password? password
-    self.crypted_password == Digest::SHA256.hexdigest(password.to_s + self.salt)
+    self.crypted_password == Digest::SHA256.hexdigest(password + self.salt)
   end
 
 
   private
+
+  def change_password
+    if valid_password? self.oldpassword
+      success = true
+      success
+    end
+  end
+
   def validate_password
     if self.password.blank?
       self.errors.add(:password, "密码不能为空")
@@ -62,11 +63,6 @@ class User < ActiveRecord::Base
     self.crypted_password = Digest::SHA256.hexdigest(self.password + self.salt)
   end
 
-  def update_password
-    self.salt = Time.now.to_i
-
-    self.crypted_password = Digest::SHA256.hexdigest(self.password + self.salt)
-  end
 
   def update_username
     self.username = self.username.downcase
