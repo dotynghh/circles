@@ -1,13 +1,13 @@
 class SessionsController < ApplicationController
   def new
-    
+
   end
 
 def create
     @user = User.authenticate(params[:username], params[:password])
     if @user
       signin_user @user
-      
+
       render json: {
         status: 'ok',
         msg: {
@@ -24,7 +24,7 @@ def create
 
   def destroy
     logout_user
-    
+
     flash[:notice] = "Exit the success."
     redirect_to root_path
   end
