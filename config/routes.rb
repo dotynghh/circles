@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'welcome#index'
+  resources :messages
 
   resources :users do
     get :blogs, on: :member

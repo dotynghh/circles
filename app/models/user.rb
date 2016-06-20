@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: { message: "用户名已存在" }
 
   has_many :blogs
+  has_many :inboxes, class_name: :Message, foreign_key: :receiver_id
+  has_many :outboxes, class_name: :Message, foreign_key: :receiver_id
   has_many :user_records, class_name: "UserRecord"
   has_many :public_blogs, -> { where(is_public: true) },
     class_name: "Blog"
