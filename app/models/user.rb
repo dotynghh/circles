@@ -40,22 +40,30 @@ class User < ActiveRecord::Base
 
   def change_password
     if valid_password? self.oldpassword
-      success = true
-      success
+      password_isblank?
+      password_notsame?
     end
+    return true
   end
 
   def validate_password
+    password_isblank?
+    password_notsame?
+    return true
+  end
+
+  def password_isblank?
     if self.password.blank?
       self.errors.add(:password, "密码不能为空")
       return false
     end
+  end
 
+  def password_notsame?
     unless self.password == self.password_confirmation
       self.errors.add(:password_confirmation, "密码不一致")
       return false
     end
-    return true
   end
 
   def set_password
