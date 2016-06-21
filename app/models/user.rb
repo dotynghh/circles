@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: { message: "用户名已存在" }
 
   has_many :blogs
+
+  has_many :friendships
+  has_many :friends, through: :friendships, source: :friend
   has_many :inboxes, class_name: :Message, foreign_key: :receiver_id
   has_many :outboxes, class_name: :Message, foreign_key: :receiver_id
   has_many :user_records, class_name: "UserRecord"
@@ -30,8 +33,21 @@ class User < ActiveRecord::Base
       nil
     end
   end
+  
+  def add_friend user
+    if self == user
+      false
+    else
+      self.friends << user
+      user.friends << self
+    end
 
+  end
 
+  def is_friend_with? user
+    self.friendships.exists?(friend_id: user.id)
+    
+  end
 
  def valid_password? password
     self.crypted_password == Digest::SHA256.hexdigest(password + self.salt)

@@ -1,22 +1,30 @@
-<h1>用户列表</h1>
+
 
 <div class="row">
-  <div class="col-sm-12">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8">
+    <a href="#" class="btn btn-primary">用户列表</a>
+    <%= link_to "我的好友", friends_user_path(current_user), class: "btn btn-primary" %>
     <table class="table">
       <tr>
         <th>ID</th>
         <th>用户名</th>
-        <th></th>
+        <th>操作</th>
       </tr>
       <% @users.each do |user| %>
         <tr>
           <td><%= user.id %></td>
           <td><%= user.username %></td>
-          <td></td>
+          <% if  current_user.is_friend_with? user %>
+            <td></td>
+          <% else %>
+          <td><%= link_to "add_friend", add_friend_users_path(friend_id: user.id), method: :post, class: "btn btn-default" %></td>
+          <% end -%>
         </tr>
       <% end -%>
     </table>
 
     <%= will_paginate @users %>
   </div>
+  <div class="col-sm-2"></div>
 </div>

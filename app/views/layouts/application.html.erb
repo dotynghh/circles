@@ -33,8 +33,9 @@
               <li><%= link_to "博客", blogs_path %></li>
               <li><%= link_to "私信", messages_path %></li>
               <% if logged_in? %>
-                <li><%= link_to "#{current_user.username}, 退出", session_path(session[:user_id]), method: 'delete' %></li>
                 <li><%= link_to "编辑", edit_user_path(current_user) %></li>
+                <li><%= link_to "#{current_user.username}, 退出", session_path(session[:user_id]), method: 'delete' %></li>
+              
               <% else %>
                 <li><%= link_to "登录", new_session_path %></li>
               <% end -%>

@@ -1,9 +1,26 @@
 <h3>新建私信</h3>
 
 <div class="row">
-	<div class="col-sm-5">
+	<div class="col-sm-2"></div>
+	<div class="col-sm-8">
 		<%= form_for @message, url: messages_path, method: :post do |f| %>
+		<div class="form-group">
+			<ul class="list-unstyled">
+				<% @message.errors.messages.values.flatten.each do |error| %>
+				<li><i class="fa fa-exclamation-circle"><%= error %></i></li>
+				<% end -%>
+			</ul>
+		</div>
+		<div class="form-group">
+			<input type="text" name="message[receiver_username]" class="form-control" value="<%= params[:message][:receiver_username] rescue params[:receiver_username] %>" placeholder="收件人">
+		</div>
+		<div class="form-group">
+			<%= f.text_area :content, class: "form-control", placeholder: "内容" %>
+		</div>
+		<div class="form-group">
+			<%= f.submit "发送", class: "btn btn-primary" %>
+		</div>
 		<% end -%>
 	</div>
-	<div class="col-sm-7"></div>
+	<div class="col-sm-2"></div>
 </div>

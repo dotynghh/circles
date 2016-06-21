@@ -14,6 +14,21 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def add_friend
+    if current_user.add_friend(User.find(params[:friend_id]))
+      flash[:notice] = "添加成功"
+      redirect_to :back
+    else
+      flash[:notice] = "添加失败"
+      redirect_to :back
+    end  
+  end
+
+  def friends
+    @friends = current_user.friends.page(params[:page] || 1).per_page(params[:per_page] || 8)
+      .order("id desc")
+  end
+
   def create
     @user = User.new(user_attrs)
     if @user.save
@@ -40,6 +55,8 @@ class UsersController < ApplicationController
       render action: :new
     end
   end
+
+
 
   private
   def user_attrs
