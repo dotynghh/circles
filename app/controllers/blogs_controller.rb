@@ -2,13 +2,16 @@ class BlogsController < ApplicationController
 
   before_filter :auth_user, except: [:index, :show]
 
+
   def index
+
     @blogs = Blog
       .page(params[:page] || 1)
       .per_page(params[:per_page] || 7)
       .order("id desc")
       .where(is_public: true)
       .includes(:tags, :user)
+
   end
 
   def new
@@ -26,8 +29,19 @@ class BlogsController < ApplicationController
       render action: :new
     end
   end
+  def add_contents
+    @blog_content = current_user.blog_contents.new(content_attrs)
+    if @blog_content.save
+      flash[:notice] = "回复成功"
+      redirect_to :back
+    else
 
+      flash[:notice] = "回复失败"
+      redirect_to :back
+    end
+  end
   def show
+    @blog_content = BlogContent.new
     @blog = Blog.find params[:id]
     if logged_in?
       user_id = current_user.id
@@ -62,6 +76,8 @@ class BlogsController < ApplicationController
     params.require(:blog).permit(:title, :content, :is_public, :tags_string)
   end
 
-
+  def content_attrs
+    params.require(:blog_content).permit(:blog_id, :content)
+  end
 
 end

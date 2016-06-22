@@ -57,13 +57,13 @@
       <%= yield %>
     </div>
 
+ <!--
   <% if logged_in? %>
-
       <% current_user.user_records.each do |t| %>
       <%= link_to Blog.find_by(id: t.blog_id).title, blog_path(Blog.find_by(id: t.blog_id)) %>
       <% end -%>
-
   <% end -%>
+  -->
   <%= javascript_include_tag 'application' %>
   <%= yield :javascripts %>
   </body>

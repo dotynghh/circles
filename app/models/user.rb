@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: { message: "用户名已存在" }
 
   has_many :blogs
-
+  has_many :blog_contents, class_name: :BlogContent
   has_many :friendships
   has_many :friends, through: :friendships, source: :friend
   has_many :inboxes, class_name: :Message, foreign_key: :receiver_id

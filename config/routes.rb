@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     get :friends, on: :member
   end
   resources :sessions
-  resources :blogs
+  resources :blogs do
+    post :add_contents, on: :collection
+  end
 
   namespace :admin do
     root 'users#index'

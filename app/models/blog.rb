@@ -6,7 +6,8 @@ class Blog < ActiveRecord::Base
   belongs_to :user
   has_many :blogs_tags, class_name: "BlogsTags"
   has_many :tags, through: :blogs_tags
-
+  has_many :blog_contents, class_name: "BlogContent"
+   
   def tags_string= one_tags
     self.tags.destroy_all
     one_tags.split(',').each do |tag|
