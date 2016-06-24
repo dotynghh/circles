@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   end
 
-def create
+  def create
     @user = User.authenticate(params[:username], params[:password])
     if @user
       signin_user @user

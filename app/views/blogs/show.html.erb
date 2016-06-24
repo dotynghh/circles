@@ -5,8 +5,16 @@
   <div class="col-sm-8">
 
   	<h1><%= @blog.title %></h1>
+  	<p>----------------------------------------</p>
     <p>作者: <%= @blog.user.username %>, <%= @blog.created_at %></p>
+    <p>----------------------------------------</p>
+   
     <%= @blog.content %>
+    <p>----------------------------------------</p>
+
+    <p>回复</p>
+
+    <p><%= @blog.content_counts %></p>
     <p>----------------------------------------</p>
     <table class="table">
       <tr>
@@ -14,17 +22,23 @@
         <th>回复内容</th>
         <th>回复人</th>
         <th>回复时间</th>
+        <th></th>
       </tr>
     	<% @blog.blog_contents.each do |content| %>
      	<tr>
      		<td><%= content.id %></td>
      		<td><%= content.content %></td>
-     		<td><%= content.user_id %></td>
+     		<td><%= content.user.username %></td>
      		<td><%= content.created_at%></td>
+     		<td>
+     		<% if content.user == current_user %>
+     			<%= link_to "删除", blog_blog_content_path(@blog, content.id), method: :delete, class: "btn btn-primary" %>
+     		<% end -%>
+     		</td>
      	</tr>
     	<% end -%>
     </table>
-   	<%= form_for @blog_content, url: add_contents_blogs_path, method: :post do |f| %>
+   	<%= form_for @blog_content, url: blog_blog_contents_path(@blog), method: :post do |f| %>
    	
      	<div class="form-group">
        	<%= f.hidden_field :blog_id, value: @blog.id %>

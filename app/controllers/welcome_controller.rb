@@ -1,4 +1,5 @@
 class WelcomeController < ApplicationController
+
   def index
     @user = if session[:user_id]  
       User.find session[:user_id]
@@ -6,4 +7,5 @@ class WelcomeController < ApplicationController
       nil
     end
   end
+  
 end

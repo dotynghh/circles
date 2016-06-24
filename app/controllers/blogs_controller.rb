@@ -4,14 +4,12 @@ class BlogsController < ApplicationController
 
 
   def index
-
     @blogs = Blog
       .page(params[:page] || 1)
       .per_page(params[:per_page] || 7)
       .order("id desc")
       .where(is_public: true)
       .includes(:tags, :user)
-
   end
 
   def new
@@ -25,31 +23,21 @@ class BlogsController < ApplicationController
       flash[:notice] = "博客创建成功"
       redirect_to blogs_path
     else
+
       flash[:notice] = "博客创建失败"
       render action: :new
     end
   end
-  def add_contents
-    @blog_content = current_user.blog_contents.new(content_attrs)
-    if @blog_content.save
-      flash[:notice] = "回复成功"
-      redirect_to :back
-    else
 
-      flash[:notice] = "回复失败"
-      redirect_to :back
-    end
-  end
   def show
     @blog_content = BlogContent.new
     @blog = Blog.find params[:id]
     if logged_in?
       user_id = current_user.id
       blog_id = @blog.id
-       @user_record = UserRecord.new(user_id: user_id, blog_id: blog_id)
-       @user_record.save
+      @user_record = UserRecord.new(user_id: user_id, blog_id: blog_id)
+      @user_record.save
     end
-
   end
 
   def edit
@@ -65,6 +53,7 @@ class BlogsController < ApplicationController
       flash[:notice] = "博客更新成功"
       redirect_to blogs_path
     else
+      
       flash[:notice] = "博客更新失败"
       render action: :new
     end
@@ -72,12 +61,11 @@ class BlogsController < ApplicationController
 
 
   private
+
   def blog_attrs
     params.require(:blog).permit(:title, :content, :is_public, :tags_string)
   end
 
-  def content_attrs
-    params.require(:blog_content).permit(:blog_id, :content)
-  end
+
 
 end

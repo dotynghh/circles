@@ -3,4 +3,5 @@ class Tag < ActiveRecord::Base
 
 	has_many :blogs_tags, class_name: "BlogsTags"
 	has_many :blogs, through: :blogs_tags
+	
 end

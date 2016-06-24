@@ -16,12 +16,14 @@ class User < ActiveRecord::Base
   has_one :latest_blog,  -> { order("id desc") }, class_name: :Blog
 
   before_save :update_username
+
   attr_accessor :oldpassword
   attr_accessor :password
   attr_accessor :password_confirmation
 
   validate :validate_password, on: :create
   validate :change_password, on: :update
+  
   before_create :set_password
   before_save :set_password
 
@@ -49,7 +51,7 @@ class User < ActiveRecord::Base
     
   end
 
- def valid_password? password
+  def valid_password? password
     self.crypted_password == Digest::SHA256.hexdigest(password + self.salt)
   end
 

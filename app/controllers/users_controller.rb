@@ -6,10 +6,12 @@ class UsersController < ApplicationController
     @users = User.page(params[:page] || 1).per_page(params[:per_page] || 10)
       .order("id desc")
   end
+
   def blogs
     @blogs = current_user.blogs.page(params[:page] || 1).per_page(params[:per_page] || 8)
       .order("id desc")
   end
+  
   def new
     @user = User.new
   end

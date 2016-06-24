@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160622014016) do
+ActiveRecord::Schema.define(version: 20160623013124) do
 
   create_table "blog_contents", force: :cascade do |t|
     t.integer  "blog_id",    limit: 4
@@ -22,12 +22,13 @@ ActiveRecord::Schema.define(version: 20160622014016) do
   end
 
   create_table "blogs", force: :cascade do |t|
-    t.string   "title",      limit: 255
-    t.text     "content",    limit: 65535
-    t.boolean  "is_public",                default: true
-    t.integer  "user_id",    limit: 4
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.string   "title",          limit: 255
+    t.text     "content",        limit: 65535
+    t.boolean  "is_public",                    default: true
+    t.integer  "user_id",        limit: 4
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.integer  "content_counts", limit: 4,     default: 0,    null: false
   end
 
   add_index "blogs", ["user_id"], name: "index_blogs_on_user_id", using: :btree

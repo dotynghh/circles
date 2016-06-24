@@ -9,8 +9,10 @@ Rails.application.routes.draw do
   end
   resources :sessions
   resources :blogs do
-    post :add_contents, on: :collection
+    resources :blog_contents
   end
+
+  
 
   namespace :admin do
     root 'users#index'

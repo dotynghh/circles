@@ -16,6 +16,7 @@ class Message < ActiveRecord::Base
 	def is_read_to_s
 		self.is_read ? "已读" : "未读"
 	end
+	
 	def receiver_username= username
 		if user = User.find_by(username: username)
 			self.receiver = user
@@ -23,6 +24,7 @@ class Message < ActiveRecord::Base
 	end
 
 	private
+
 	def validate_username
 		if self.receiver
 			true
@@ -31,4 +33,5 @@ class Message < ActiveRecord::Base
 			false
 		end
 	end
+
 end
